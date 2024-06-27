@@ -13,4 +13,14 @@
       </Content>
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="MediatR" Version="12.3.0" />
+      <PackageReference Include="Websocket.Client" Version="5.1.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Backend.Core\Backend.Core.csproj" />
+      <ProjectReference Include="..\Backend.Infrastructure\Backend.Infrastructure.csproj" />
+    </ItemGroup>
+
 </Project>
