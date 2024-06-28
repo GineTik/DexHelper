@@ -16,7 +16,7 @@ public class BitqueryClient : AbstractBitqueryClient, IBitqueryClient
     {
     }
     
-    public void SubscribeOnNewTokens(Action<NewTokensPayload> callback)
+    public void SubscribeOnNewTokens(Func<NewTokensPayload, Task> callback)
     {
         Subscribe(
             "new tokens",
@@ -87,7 +87,7 @@ public class BitqueryClient : AbstractBitqueryClient, IBitqueryClient
         );
     }
 
-    public void SubscribeOnLastTokenTrade(string smartContract, Action<LastTradePayload> callback)
+    public void SubscribeOnLastTokenTrade(string smartContract, Func<LastTradePayload, Task> callback)
     {
         throw new NotImplementedException();
     }

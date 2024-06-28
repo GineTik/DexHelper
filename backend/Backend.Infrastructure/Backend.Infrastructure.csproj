@@ -10,4 +10,14 @@
       <ProjectReference Include="..\Backend.Core\Backend.Core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="7.0.20" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Analyzers" Version="7.0.20" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.20" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.20">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+    </ItemGroup>
+
 </Project>

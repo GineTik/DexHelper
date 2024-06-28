@@ -21,7 +21,6 @@ public abstract class AbstractBitqueryClient : IDisposable
         _websocketClients = new Dictionary<string, WebsocketClient>();
     }
     
-    
     public void Dispose()
     {
         foreach (var client in _websocketClients)
@@ -31,7 +30,7 @@ public abstract class AbstractBitqueryClient : IDisposable
         }
     }
 
-    protected void Subscribe<T>(string name, string query, Action<T> callback)
+    protected void Subscribe<T>(string name, string query, Func<T, Task> callback)
         where T : new()
     {
         if (_websocketClients.ContainsKey(name))

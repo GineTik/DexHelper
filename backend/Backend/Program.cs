@@ -11,6 +11,7 @@ builder.Services.Configure<BitqueryOptions>(builder.Configuration.GetSection(Bit
 builder.Services.AddMediatR(config => config.RegisterServicesFromAssembly(typeof(SubscribeBitqueryApi).Assembly));
 
 var app = builder.Build();
+app.UseWebSockets();
 
 SubscribeToNewTokens();
 app.Run();

@@ -4,6 +4,6 @@ namespace Backend.Core.Interfaces.Bitquery;
 
 public interface IBitqueryClient : IDisposable
 {
-    void SubscribeOnNewTokens(Action<NewTokensPayload> callback);
-    void SubscribeOnLastTokenTrade(string smartContract, Action<LastTradePayload> callback);
+    void SubscribeOnNewTokens(Func<NewTokensPayload, Task> callback);
+    void SubscribeOnLastTokenTrade(string smartContract, Func<LastTradePayload, Task> callback);
 }
