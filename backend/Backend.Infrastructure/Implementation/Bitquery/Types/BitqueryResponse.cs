@@ -1,4 +1,4 @@
-﻿namespace Backend.Core.Interfaces.Bitquery.Types;
+﻿namespace Backend.Infrastructure.Implementation.Bitquery.Types;
 
 public class BitqueryResponse
 {

@@ -6,7 +6,6 @@ namespace Backend.Infrastructure.EF;
 public class DataContext : DbContext
 {
     public DbSet<CryptoToken> Tokens { get; set; } = default!;
-    public DbSet<Social> Socials { get; set; } = default!;
 
     public DataContext(DbContextOptions<DataContext> options) : base(options)
     {

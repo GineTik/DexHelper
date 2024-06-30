@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace Backend.Core.Interfaces.Bitquery.Types;
+﻿namespace Backend.Infrastructure.Implementation.Bitquery.Types;
 
 public class NewTokensPayload
 {
@@ -12,7 +10,7 @@ public class NewTokensPayload
         public InstructionContent Instruction { get; set; } = default!;
         public Transaction Transaction { get; set; } = default!;
     }
-    
+     
     public class Block
     {
         public DateTime Time { get; set; } = default!;
@@ -40,14 +38,13 @@ public class NewTokensPayload
     {
         public string Name { get; set; } = default!;
         public string Type { get; set; } = default!;
-    
-        // [JsonPropertyName("Value")]
-        // public Value Value { get; set; }
+        public Value Value { get; set; } = default!;
     }
     
     public class Value
     {
         public int Integer { get; set; } = default!;
+        public string String { get; set; } = default!;
     }
     
     public class Transaction

@@ -1,7 +1,10 @@
 ﻿using System.Net.WebSockets;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 using Backend.Core.Interfaces.Bitquery.Types;
 using Backend.Domain.Options;
+using Backend.Infrastructure.Implementation.Bitquery.Types;
+using Backend.Infrastructure.Implementation.Bitquery.Types.PumpPortal;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Websocket.Client;
@@ -29,8 +32,47 @@ public abstract class AbstractBitqueryClient : IDisposable
             client.Value.Dispose();
         }
     }
+    
+    protected void SubscribeOnPumpPortal<T>(Func<T, Task> callback, object payload, [CallerMemberName] string name = "nothing")
+        where T : new()
+    {
+        if (_websocketClients.ContainsKey(name))
+            return;
+        
+        var url = new Uri("wss://pumpportal.fun/api/data");
+        var websocketClient = new WebsocketClient(url);
+        websocketClient.Send(JsonSerializer.Serialize(payload));
 
-    protected void Subscribe<T>(string name, string query, Func<T, Task> callback)
+        websocketClient.ReconnectTimeout = null; // off
+        websocketClient.DisconnectionHappened.Subscribe(info =>
+        {
+            _logger.LogError($"Disconnection happened, type: {info.Type}, exception: {info.Exception}");
+        });
+        websocketClient.ReconnectionHappened.Subscribe(info =>
+        {
+            _logger.LogWarning("Reconnection happened, type: " + info.Type);
+        });
+        websocketClient.MessageReceived.Subscribe(jsonResponse =>
+        {
+            _logger.LogInformation("Message received: " + jsonResponse);
+            
+            if (jsonResponse.ToString().StartsWith("{\"message\":"))
+                return;
+            
+            var response = JsonSerializer.Deserialize<T>(jsonResponse.ToString(), new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            });
+            
+            if (response != null)
+                callback(response);
+        });
+
+        websocketClient.Start();
+        _websocketClients[name] = websocketClient;
+    }
+
+    protected void Subscribe<T>(Func<T, Task> callback, string name, string query)
         where T : new()
     {
         if (_websocketClients.ContainsKey(name))
