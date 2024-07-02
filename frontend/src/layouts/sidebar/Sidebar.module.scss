@@ -1,0 +1,11 @@
+.sidebar {
+    @apply w-[364px] h-screen border-x border-x-gray-border transition-all overflow-hidden;
+
+    &--short {
+        @apply w-[62px];
+    }
+    
+    .sidebar__container {
+        @apply w-[364px] h-screen relative transition-all;
+    }
+}

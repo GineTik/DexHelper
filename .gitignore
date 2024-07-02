@@ -407,4 +407,7 @@ fabric.properties
 .history
 .ionide
 
+.next/
+backend/Backend/appsettings.Development.json
+
 # End of https://www.toptal.com/developers/gitignore/api/rider,aspnetcore,nextjs,visualstudiocode

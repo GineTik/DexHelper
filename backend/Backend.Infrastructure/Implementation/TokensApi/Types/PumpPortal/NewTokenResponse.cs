@@ -1,4 +1,4 @@
-﻿namespace Backend.Infrastructure.Implementation.Bitquery.Types.PumpPortal;
+﻿namespace Backend.Infrastructure.Implementation.TokensApi.Types.PumpPortal;
 
 public class NewTokenResponse
 {

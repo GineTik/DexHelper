@@ -1,0 +1,11 @@
+.sidebar__header {
+    @apply w-full px-[18px] py-[8px] border-b border-b-gray-border-dark flex justify-between items-center bg-gray-950/10 z-10 backdrop-blur-xl absolute top-0 left-0 transition-all;
+}
+
+.sidebar__header--short {
+    @apply px-[13.5px];
+}
+
+.sidebar__title {
+    @apply text-gray-500 text-[14px];
+}

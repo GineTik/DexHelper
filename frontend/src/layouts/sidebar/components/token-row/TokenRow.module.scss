@@ -1,0 +1,42 @@
+.token {
+  @apply py-[12px] flex items-center cursor-pointer transition duration-75;
+
+  &:hover {
+    @apply bg-gray-900/30;
+  }
+
+  td:first-child {
+    @apply pl-[10px];
+  }
+  td:last-child {
+    @apply pr-[10px];
+  }
+
+  .token__image {
+    @apply w-[40px] h-[40px] bg-gray-900 rounded-full;
+  }
+
+  .token__name {
+    @apply text-[14px] font-medium leading-none;
+  }
+
+  .token__symbol {
+    @apply text-[13px] font-normal leading-none text-white/50;
+  }
+
+  .token__mcap {
+    @apply text-[14px] font-medium leading-none;
+  }
+
+  .token__mcap-percent {
+    @apply text-[14px] font-normal leading-none text-green;
+  }
+
+  .token__created {
+
+  }
+
+  .token__actions {
+    @apply flex justify-end items-center;
+  }
+}

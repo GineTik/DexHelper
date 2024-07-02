@@ -1,0 +1,53 @@
+.sidebar__content {
+    @apply flex flex-col justify-center h-full;
+}
+
+.sidebar__content-scroll {
+    @apply pt-[57px];
+}
+
+.sidebar__table {
+    @apply w-full mt-[52px];
+}
+
+.table {
+    tr {
+        @apply flex flex-1 border-b border-b-gray-border-dark w-full;
+    }
+
+    th, td {
+        @apply text-left;
+
+        * {
+            @apply truncate;
+        }
+
+        &:nth-child(1) {
+            @apply w-[75px];
+        }
+
+        &:nth-child(2) {
+            @apply w-[98px];
+        }
+
+        &:nth-child(3) {
+            @apply w-[68px];
+        }
+
+        &:nth-child(4) {
+            @apply w-[64px];
+        }
+
+        &:nth-child(5) {
+            @apply w-[54px];
+        }
+    }
+
+    .table__header {
+        @apply text-[12px] font-normal;
+
+        th {
+            @apply py-[9px] font-normal;
+        }
+    }
+}

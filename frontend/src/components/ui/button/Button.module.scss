@@ -1,0 +1,39 @@
+.icon {
+    @apply relative flex justify-center items-center bg-transparent transition rounded-full;
+
+    * {
+        @apply w-[20px] h-[20px] transition-all;
+    }
+
+    &:hover {
+        @apply bg-blue-background;
+
+        * {
+            @apply text-blue;
+        }
+    }
+
+    &.default_size {
+        @apply w-[35px] h-[35px];
+    }
+}
+
+.ghost {
+    @apply relative flex items-center bg-transparent transition rounded-full gap-1 text-[14px];
+
+    * {
+        @apply transition-all leading-none;
+    }
+
+    &:hover {
+        @apply bg-blue-background;
+
+        * {
+            @apply text-blue;
+        }
+    }
+
+    &.default_size {
+        @apply px-[8px] py-[6px] w-min;
+    }
+}

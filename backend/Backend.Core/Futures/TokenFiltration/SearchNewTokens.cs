@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 using Backend.Core.Gateways;
-using Backend.Core.Interfaces.Bitquery;
+using Backend.Core.Interfaces.TokensApi;
 using Backend.Domain.Entities;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -13,13 +13,13 @@ public record SearchNewTokensRequest() : IRequest;
 public class SearchNewTokensHandler : IRequestHandler<SearchNewTokensRequest>
 {
     private readonly ILogger<SearchNewTokensHandler> _logger;
-    private readonly IBitqueryClient _bitqueryClient;
+    private readonly ITokensApiClient _tokensApiClient;
     private readonly ITokenGateway _tokenGateway;
 
-    public SearchNewTokensHandler(ILogger<SearchNewTokensHandler> logger, IBitqueryClient bitqueryClient, ITokenGateway tokenGateway)
+    public SearchNewTokensHandler(ILogger<SearchNewTokensHandler> logger, ITokensApiClient tokensApiClient, ITokenGateway tokenGateway)
     {
         _logger = logger;
-        _bitqueryClient = bitqueryClient;
+        _tokensApiClient = tokensApiClient;
         _tokenGateway = tokenGateway;
     }
 
@@ -29,7 +29,7 @@ public class SearchNewTokensHandler : IRequestHandler<SearchNewTokensRequest>
 
         try
         {
-            _bitqueryClient.SubscribeOnNewTokens(async response =>
+            _tokensApiClient.SubscribeOnNewTokens(async response =>
             {
                 _logger.LogInformation("new token: " + JsonSerializer.Serialize(response));
 

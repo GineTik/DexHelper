@@ -1,23 +1,23 @@
 ﻿using System.Net.WebSockets;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
-using Backend.Core.Interfaces.Bitquery.Types;
+using Backend.Core.Interfaces.TokensApi.Types;
 using Backend.Domain.Options;
-using Backend.Infrastructure.Implementation.Bitquery.Types;
-using Backend.Infrastructure.Implementation.Bitquery.Types.PumpPortal;
+using Backend.Infrastructure.Implementation.TokensApi.Types.PumpPortal;
+using Backend.Infrastructure.Implementation.TokensApi.Types;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Websocket.Client;
 
-namespace Backend.Infrastructure.Implementation.Bitquery;
+namespace Backend.Infrastructure.Implementation.TokensApi;
 
 public abstract class AbstractBitqueryClient : IDisposable
 {
     private readonly IDictionary<string, WebsocketClient> _websocketClients;
     private readonly BitqueryOptions _bitqueryOptions;
-    private readonly ILogger<BitqueryClient> _logger;
+    private readonly ILogger<TokensApiClient> _logger;
 
-    protected AbstractBitqueryClient(IOptions<BitqueryOptions> bitqueryOptions, ILogger<BitqueryClient> logger)
+    protected AbstractBitqueryClient(IOptions<BitqueryOptions> bitqueryOptions, ILogger<TokensApiClient> logger)
     {
         _logger = logger;
         _bitqueryOptions = bitqueryOptions.Value;

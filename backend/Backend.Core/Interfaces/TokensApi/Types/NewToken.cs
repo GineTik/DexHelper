@@ -1,6 +1,6 @@
 ﻿using Backend.Domain.Entities;
 
-namespace Backend.Core.Interfaces.Bitquery.Types;
+namespace Backend.Core.Interfaces.TokensApi.Types;
 
 public class NewToken
 {
