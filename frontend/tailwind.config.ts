@@ -26,7 +26,7 @@ const config = {
 					950: '#0D0D0D'
 				},
 				blue: {
-					background: '#0a171f',
+					background: '#0E222E',
 					DEFAULT: '#2199EA'
 				},
 				green: {

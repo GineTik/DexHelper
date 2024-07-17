@@ -1,10 +1,11 @@
+import MainWrapper from "@/layouts/main/MainWrapper"
 import Sidebar from "@/layouts/sidebar/Sidebar"
 import { cn } from "@/lib/utils"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
+import Providers from "./Providers"
 import "./globals.css"
 import styles from "./layout.module.scss"
-import Providers from "./providers"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -23,7 +24,9 @@ export default function RootLayout({
       <Providers>
         <body className={cn(styles.body, inter.className)}>
           <Sidebar />
-          {children}
+          <MainWrapper>
+            {children}
+          </MainWrapper>
         </body>
       </Providers>
     </html>

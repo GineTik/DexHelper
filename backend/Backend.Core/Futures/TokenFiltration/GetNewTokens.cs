@@ -6,20 +6,17 @@ using Microsoft.Extensions.Options;
 
 namespace Backend.Core.Futures.TokenFiltration;
 
-public class GetNewTokensResponse
+public class GetNewTokensResponse : TokenPaginationPage<TokenResponse>
 {
-    public string Name { get; set; } = default!;
-    public string Symbol { get; set; } = default!;
-    public string ImageUrl { get; set; } = default!;
-    public string TokenAddress { get; set; } = default!;
+    
 }
 
-public class GetNewTokensRequest : IRequest<TokenPaginationPage<GetNewTokensResponse>>
+public class GetNewTokensRequest : IRequest<GetNewTokensResponse>
 {
     public int Page { get; set; }
 }
 
-public class GetNewTokensHandler : IRequestHandler<GetNewTokensRequest, TokenPaginationPage<GetNewTokensResponse>>
+public class GetNewTokensHandler : IRequestHandler<GetNewTokensRequest, GetNewTokensResponse>
 {
     private readonly ITokenGateway _tokenGateway;
     private readonly PageOptions _pageOptions;
@@ -30,35 +27,35 @@ public class GetNewTokensHandler : IRequestHandler<GetNewTokensRequest, TokenPag
         _pageOptions = pageOptions.Value;
     }
 
-    public async Task<TokenPaginationPage<GetNewTokensResponse>> Handle(GetNewTokensRequest request, CancellationToken cancellationToken)
+    public async Task<GetNewTokensResponse> Handle(GetNewTokensRequest request, CancellationToken cancellationToken)
     {
-        if (request.Page < 1)
-            request.Page = 1;
+        var page = request.Page < 1 ? 1 : request.Page;
 
         var totalSize = await _tokenGateway.GetTotalSize();
         var totalPages = totalSize % _pageOptions.TokenSize == 0
             ? totalSize / _pageOptions.TokenSize
             : (totalSize / _pageOptions.TokenSize) + 1;
 
-        if (request.Page > totalPages)
-            request.Page = totalPages;
+        if (page > totalPages)
+            page = totalPages;
             
-        var offset = _pageOptions.TokenSize * (request.Page - 1);
+        var offset = _pageOptions.TokenSize * (page - 1);
         var size = _pageOptions.TokenSize;
-        var tokens = (await _tokenGateway.GetTokenList(offset, size)).ToList();
+        var tokens = (await _tokenGateway.GetNewTokens(offset, size)).ToList();
 
-        return new TokenPaginationPage<GetNewTokensResponse>
+        return new GetNewTokensResponse
         {
-            Page = request.Page,
+            Page = page,
             PageSize = _pageOptions.TokenSize,
             TotalSize = totalSize,
             TotalPages = totalPages,
-            Items = tokens.Select(o => new GetNewTokensResponse
+            Items = tokens.Select(o => new TokenResponse
             {
                 Name = o.Name,
                 Symbol = o.Symbol,
-                ImageUrl = o.ImageUrl,
-                TokenAddress = o.TokenAddress
+                Image = o.ImageUrl,
+                TokenAddress = o.TokenAddress,
+                CreatedAtUtc = o.CreatedAtUtc
             })
         };
     }

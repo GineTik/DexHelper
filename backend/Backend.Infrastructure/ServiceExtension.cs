@@ -1,5 +1,5 @@
 ﻿using Backend.Core.Gateways;
-using Backend.Core.Interfaces.TokensApi;
+using Backend.Core.Interfaces.Token.TokensApi;
 using Backend.Infrastructure.EF;
 using Backend.Infrastructure.Gateways;
 using Backend.Infrastructure.Implementation.TokensApi;

@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices.JavaScript;
 using Backend.Core.Futures.TokenFiltration;
 using Backend.Core.Futures.TokenFiltration.Types;
 using MediatR;
@@ -6,7 +7,12 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace Backend.SignalRHubs;
 
-public class TokensHub : Hub
+public interface ITypedTokensHub
+{
+    Task ReceiveNewToken(TokenResponse token);
+}
+
+public class TokensHub : Hub<ITypedTokensHub>
 {
     private readonly IMediator _mediator;
     
@@ -15,12 +21,25 @@ public class TokensHub : Hub
         _mediator = mediator;
     }
 
-    public async IAsyncEnumerable<TokenPaginationPage<GetNewTokensResponse>> SubscribeNewToken(int page, [EnumeratorCancellation] CancellationToken cancellationToken)
+    public async IAsyncEnumerable<GetNewTokensResponse> ReceiveNewTokens([EnumeratorCancellation] CancellationToken cancellationToken)
     {
         while (cancellationToken.IsCancellationRequested == false)
         {
-            yield return await _mediator.Send(new GetNewTokensRequest { Page = page }, cancellationToken);
-            await Task.Delay(3000, cancellationToken);
+            var page = await _mediator.Send(new GetNewTokensRequest { Page = 1 }, cancellationToken);
+            yield return page;
+            await Task.Delay(2000, cancellationToken);
         }
+    }
+
+    public override Task OnConnectedAsync()
+    {
+        Console.WriteLine("connected " + Context.ConnectionId);
+        return base.OnConnectedAsync();
+    }
+
+    public override Task OnDisconnectedAsync(Exception? exception)
+    {
+        Console.WriteLine("disconected " + Context.ConnectionId);
+        return base.OnDisconnectedAsync(exception);
     }
 }

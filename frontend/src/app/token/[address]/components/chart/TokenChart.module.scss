@@ -1,0 +1,7 @@
+.wrapper {
+    @apply flex-1 -mx-[1px] -mb-[1px];
+
+    .chart {
+        @apply rounded-xl w-full h-full;
+    }
+}

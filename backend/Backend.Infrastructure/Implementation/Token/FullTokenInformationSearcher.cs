@@ -1,4 +1,4 @@
-﻿using Backend.Core.Interfaces.TokensApi.Types;
+﻿using Backend.Core.Interfaces.Token.TokensApi.Types;
 using Backend.Core.Interfaces.Token;
 using Backend.Core.Interfaces.Token.Types;
 

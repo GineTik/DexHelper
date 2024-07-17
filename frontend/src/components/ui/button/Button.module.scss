@@ -1,10 +1,6 @@
 .icon {
     @apply relative flex justify-center items-center bg-transparent transition rounded-full;
 
-    * {
-        @apply w-[20px] h-[20px] transition-all;
-    }
-
     &:hover {
         @apply bg-blue-background;
 
@@ -14,7 +10,19 @@
     }
 
     &.default_size {
-        @apply w-[35px] h-[35px];
+        @apply size-[35px];
+
+        * {
+            @apply size-[20px] transition-all;
+        }    
+    }
+
+    &.small_size {
+        @apply size-[30px];
+
+        * {
+            @apply size-[18px] transition-all;
+        }    
     }
 }
 

@@ -1,0 +1,41 @@
+.header {
+    @apply p-[20px] flex;
+
+    .header__information {
+        @apply flex space-x-[15px] cursor-pointer;
+
+        .header__name-row {
+            @apply flex space-x-1.5;
+    
+            .header__name {
+                @apply font-[14px];
+            }
+        
+            .header__symbol {
+                @apply text-white/50;
+            }
+        }
+
+        .header__address {
+            @apply text-[12px] text-white/50 transition flex space-x-1 items-center;
+        }
+
+        &:hover {
+            .header__address {
+                @apply text-white/70;
+            }
+        }
+    }
+
+    .header__links {
+        @apply ml-auto flex space-x-1 items-center;
+
+        .header__link {
+            @apply bg-gray-900 rounded-full px-[8px] py-[4px] flex space-x-[5px] text-[13px] transition duration-75;
+
+            &:hover {
+                @apply bg-white/20;
+            }
+        }
+    }
+}

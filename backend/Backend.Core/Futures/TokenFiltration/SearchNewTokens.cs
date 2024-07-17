@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
+using Backend.Core.Futures.TokenFiltration.Types;
 using Backend.Core.Gateways;
-using Backend.Core.Interfaces.TokensApi;
+using Backend.Core.Interfaces.Token.TokensApi;
 using Backend.Domain.Entities;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -10,17 +11,21 @@ namespace Backend.Core.Futures.TokenFiltration;
 
 public record SearchNewTokensRequest() : IRequest;
 
+public class NewTokenNotification : TokenResponse, INotification {}
+
 public class SearchNewTokensHandler : IRequestHandler<SearchNewTokensRequest>
 {
     private readonly ILogger<SearchNewTokensHandler> _logger;
     private readonly ITokensApiClient _tokensApiClient;
     private readonly ITokenGateway _tokenGateway;
+    private readonly IMediator _mediator;
 
-    public SearchNewTokensHandler(ILogger<SearchNewTokensHandler> logger, ITokensApiClient tokensApiClient, ITokenGateway tokenGateway)
+    public SearchNewTokensHandler(ILogger<SearchNewTokensHandler> logger, ITokensApiClient tokensApiClient, ITokenGateway tokenGateway, IMediator mediator)
     {
         _logger = logger;
         _tokensApiClient = tokensApiClient;
         _tokenGateway = tokenGateway;
+        _mediator = mediator;
     }
 
     public Task Handle(SearchNewTokensRequest request, CancellationToken cancellationToken)
@@ -53,6 +58,15 @@ public class SearchNewTokensHandler : IRequestHandler<SearchNewTokensRequest>
                     Twitter = response.Twitter,
                     Telegram = response.Telegram,
                 });
+
+                await _mediator.Publish(new NewTokenNotification
+                {
+                    Name = response.Name,
+                    Symbol = response.Symbol,
+                    Image = response.ImageUrl,
+                    TokenAddress = response.TokenAddress,
+                    CreatedAtUtc = response.CreatedAtUtc
+                }, cancellationToken);
             });
         }
         catch (Exception ex)

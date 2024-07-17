@@ -13,7 +13,7 @@
   }
 
   .token__image {
-    @apply w-[40px] h-[40px] bg-gray-900 rounded-full;
+    @apply block w-[40px] h-[40px] bg-gray-900 rounded-full overflow-hidden;
   }
 
   .token__name {
@@ -33,7 +33,7 @@
   }
 
   .token__created {
-
+    @apply text-sm;
   }
 
   .token__actions {

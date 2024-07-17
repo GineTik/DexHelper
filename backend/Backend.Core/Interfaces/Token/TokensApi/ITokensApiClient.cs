@@ -1,6 +1,6 @@
-﻿using Backend.Core.Interfaces.TokensApi.Types;
+﻿using Backend.Core.Interfaces.Token.TokensApi.Types;
 
-namespace Backend.Core.Interfaces.TokensApi;
+namespace Backend.Core.Interfaces.Token.TokensApi;
 
 public interface ITokensApiClient : IDisposable
 {
