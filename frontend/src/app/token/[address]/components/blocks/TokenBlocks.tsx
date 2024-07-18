@@ -26,6 +26,7 @@ const TokenBlocks = () => {
 			setIsBlocksBeyond(isBeyond)
 		}
 
+		updateWindowDimensions()
 		window.addEventListener("resize", updateWindowDimensions)
    		return () => window.removeEventListener("resize", updateWindowDimensions)
 	}, [])

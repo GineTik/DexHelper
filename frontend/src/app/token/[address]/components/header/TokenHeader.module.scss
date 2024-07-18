@@ -4,6 +4,12 @@
     .header__information {
         @apply flex space-x-[15px] cursor-pointer;
 
+        &:hover {
+            .header__address {
+                @apply text-white/70;
+            }
+        }
+
         .header__name-row {
             @apply flex space-x-1.5;
     
@@ -19,12 +25,10 @@
         .header__address {
             @apply text-[12px] text-white/50 transition flex space-x-1 items-center;
         }
+    }
 
-        &:hover {
-            .header__address {
-                @apply text-white/70;
-            }
-        }
+    .header__advertising {
+        @apply ml-[10px];
     }
 
     .header__links {

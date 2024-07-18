@@ -20,11 +20,11 @@ const InformationBlock = ({}: InformationBlockProps) => {
 		<div className={styles.information__row}>
 			<div className={styles.information__block}>
 				<div className={styles.information__label}>Price USD</div>
-				<div className={styles.information__value}>$0.0₃1470</div>
+				<div className={styles.information__value}>$0.0(3)1470</div>
 			</div>
 			<div className={styles.information__block}>
 				<div className={styles.information__label}>PRICE SOL</div>
-				<div className={styles.information__value}>0.0₅1144</div>
+				<div className={styles.information__value}>0.0(5)1144</div>
 			</div>
 		</div>
 		<div className={styles.information__row}>

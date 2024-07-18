@@ -1,6 +1,8 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar/Avatar"
+import { Button } from "@/components/ui/button/Button"
 import Link from "next/link"
 import { BiSolidCopy } from "react-icons/bi"
+import { IoIosTrendingUp } from "react-icons/io"
 import styles from "./TokenHeader.module.scss"
 
 const TokenHeader = () => {
@@ -22,6 +24,13 @@ const TokenHeader = () => {
                 </div>
             </div>
         </div>
+        <Button 
+            className={styles.header__advertising} 
+            tooltip="up the token to the first line"
+            tooltipSide="bottom"
+        >
+            <IoIosTrendingUp className="text-white/50" />
+        </Button>
         <div className={styles.header__links}>
             <Link href={""} className={styles.header__link}>
                 PhotonSol
