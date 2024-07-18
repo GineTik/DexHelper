@@ -1,0 +1,11 @@
+.wrapper {
+    @apply relative min-h-[450px] w-full overflow-hidden;
+}
+
+.blocks {
+    @apply border-t border-t-gray-border h-full flex -mr-[1px] absolute transition-all;
+
+    &[data-beyond="false"] {
+        left: 0px !important;
+    }
+}

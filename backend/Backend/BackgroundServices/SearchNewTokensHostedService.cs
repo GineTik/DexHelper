@@ -20,5 +20,10 @@ public class SearchNewTokensHostedService : BackgroundService
         using var scope = _serviceProvider.CreateScope();
         var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
         await mediator.Send(new SearchNewTokensRequest(), stoppingToken);
+
+        while (stoppingToken.IsCancellationRequested == false)
+        {
+            await Task.Delay(1000, stoppingToken);
+        }
     }
 }

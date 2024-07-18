@@ -59,14 +59,14 @@ public class SearchNewTokensHandler : IRequestHandler<SearchNewTokensRequest>
                     Telegram = response.Telegram,
                 });
 
-                await _mediator.Publish(new NewTokenNotification
-                {
-                    Name = response.Name,
-                    Symbol = response.Symbol,
-                    Image = response.ImageUrl,
-                    TokenAddress = response.TokenAddress,
-                    CreatedAtUtc = response.CreatedAtUtc
-                }, cancellationToken);
+                // await _mediator.Publish(new NewTokenNotification
+                // {
+                //     Name = response.Name,
+                //     Symbol = response.Symbol,
+                //     Image = response.ImageUrl,
+                //     TokenAddress = response.TokenAddress,
+                //     CreatedAtUtc = response.CreatedAtUtc
+                // }, cancellationToken);
             });
         }
         catch (Exception ex)

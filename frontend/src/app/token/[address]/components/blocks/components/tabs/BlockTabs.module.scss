@@ -1,0 +1,23 @@
+.tabs {
+    @apply px-[10px] transition-all overflow-hidden border-b border-b-gray-border -mb-[1px] flex;
+
+    &[data-visible="true"] {
+        @apply max-h-96;
+    }
+
+    &[data-visible="false"] {
+        @apply max-h-0;
+    }
+
+    .tabs__item {
+        @apply px-[10px] py-[14px] mt-[1px] cursor-pointer transition-all border-b-transparent border-b-2;
+
+        &:hover {
+            @apply bg-white/5;
+        }
+
+        &[data-selected="true"] {
+            @apply border-b-blue;
+        }
+    }
+}

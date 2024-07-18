@@ -1,7 +1,3 @@
 .block {
-    @apply border-r border-r-gray-border min-w-[150px] h-full;
-
-    &:not(:last-child) {
-        @apply border-r-0;
-    }
+    @apply border-r border-r-gray-border-dark min-w-[250px] h-full -mt-[1px];
 }

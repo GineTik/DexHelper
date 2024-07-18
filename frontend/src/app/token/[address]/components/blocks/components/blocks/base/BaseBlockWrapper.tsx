@@ -1,9 +1,15 @@
+import { cn } from "@/lib/utils"
 import styles from "./BaseBlockWrapper.module.scss"
 
-const BaseBlockWrapper = () => {
+type BaseBlockWrapperProps = {
+  children?: any
+  className?: string
+}
+
+const BaseBlockWrapper = ({children, className}: BaseBlockWrapperProps) => {
   return (
-    <div className={styles.block}>
-      
+    <div className={cn(styles.block, className)}>
+      {children}
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import BlocksContainer from "./components/blocks/BlocksContainer"
+import TokenBlocks from "./components/blocks/TokenBlocks"
 import TokenChart from "./components/chart/TokenChart"
 import TokenHeader from "./components/header/TokenHeader"
 import styles from "./TokenPage.module.scss"
@@ -8,7 +8,7 @@ const TokenPage = () => {
     <div className={styles.page}>
       <TokenHeader />
       <TokenChart />
-      <BlocksContainer />
+      <TokenBlocks />
     </div>
   )
 }

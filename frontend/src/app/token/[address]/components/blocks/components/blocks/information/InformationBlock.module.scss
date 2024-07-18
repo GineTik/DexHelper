@@ -1,0 +1,31 @@
+.information {
+    @apply max-w-[300px];
+}
+
+.information__row {
+    @apply flex mx-[20px] mb-[11px];
+}
+
+.information__block {
+    @apply flex-1;
+    
+    .information__label {
+        @apply text-white/50 text-[12px] uppercase;
+    }
+
+    .information__value {
+        @apply text-[14px] flex items-center space-x-1;
+    }
+}
+
+.wallets {
+    @apply flex;
+
+    .wallets__avatar {
+        @apply bg-gray-900 rounded-full size-[30px] flex justify-center items-center text-[12px] text-white/50 border-2 border-gray-950;
+
+        &:not(:first-child) {
+            @apply -ml-[15px];
+        }
+    }
+}

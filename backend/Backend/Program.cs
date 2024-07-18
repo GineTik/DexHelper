@@ -1,4 +1,5 @@
 using Backend;
+using Backend.BackgroundServices;
 using Backend.Core.Futures.TokenFiltration;
 using Backend.Infrastructure;
 using Backend.SignalRHubs;
@@ -10,6 +11,7 @@ builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.Services.AddInfrastructure();
 builder.Services.AddPresentation();
+builder.Services.AddHostedService<SearchNewTokensHostedService>();
 
 var app = builder.Build();
 app.UseCors(policy => policy.WithOrigins("http://localhost:3000")
@@ -19,12 +21,12 @@ app.UseCors(policy => policy.WithOrigins("http://localhost:3000")
 app.MapControllers();
 app.MapHub<TokensHub>("/ws/new-tokens");
 
-SubscribeNewTokens();
+// SubscribeNewTokens();
 app.Run();
 
-void SubscribeNewTokens()
-{
-    var serviceProvider = builder.Services.BuildServiceProvider();
-    var mediator = serviceProvider.GetRequiredService<IMediator>();
-    mediator.Send(new SearchNewTokensRequest());
-}
+// void SubscribeNewTokens()
+// {
+//     var serviceProvider = builder.Services.BuildServiceProvider();
+//     var mediator = serviceProvider.GetRequiredService<IMediator>();
+//     mediator.Send(new SearchNewTokensRequest());
+// }
