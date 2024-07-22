@@ -2,7 +2,7 @@
 using Backend.Core.Interfaces.Token.TokensApi;
 using Backend.Infrastructure.EF;
 using Backend.Infrastructure.Gateways;
-using Backend.Infrastructure.Implementation.TokensApi;
+using Backend.Infrastructure.Implementation.Token.TokensApi;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

@@ -1,6 +1,6 @@
 using Backend;
 using Backend.BackgroundServices;
-using Backend.Core.Futures.TokenFiltration;
+using Backend.Core.Futures.Token;
 using Backend.Infrastructure;
 using Backend.SignalRHubs;
 using MediatR;

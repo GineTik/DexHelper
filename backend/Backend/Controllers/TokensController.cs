@@ -1,9 +1,4 @@
-﻿using System.Net;
-using System.Net.WebSockets;
-using System.Text;
-using System.Text.Json;
-using Backend.Core.Futures.TokenFiltration;
-using Backend.Core.Futures.TokenFiltration.Types;
+﻿using Backend.Core.Futures.Token;
 using Backend.SignalRHubs;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -26,20 +21,12 @@ public class TokensController : Controller
     [HttpGet("last-tokens")]
     public async Task<GetNewTokensResponse> GetLastTokens(int page)
     {
-        return await _mediator.Send(new GetNewTokensRequest
-        {
-            Page = page
-        });
+        return await _mediator.Send(new GetNewTokensRequest(page));
     }
 
-    [HttpPost("test")]
-    public async Task Test()
+    [HttpGet("get-info")]
+    public async Task<GetTokenInformationResponse> GetInfo(string address)
     {
-        await _hubContext.Clients.All.ReceiveNewToken(new TokenResponse
-        {
-            Name = "Test #2",
-            Symbol = "TEST #2",
-            CreatedAtUtc = DateTime.UtcNow
-        });
+        return await _mediator.Send(new GetTokenInformationRequest(address));
     }
 }

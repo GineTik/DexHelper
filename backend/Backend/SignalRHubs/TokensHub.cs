@@ -1,7 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.JavaScript;
-using Backend.Core.Futures.TokenFiltration;
-using Backend.Core.Futures.TokenFiltration.Types;
+using Backend.Core.Futures.Token;
+using Backend.Core.Futures.Token.Types;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
 
@@ -25,7 +25,7 @@ public class TokensHub : Hub<ITypedTokensHub>
     {
         while (cancellationToken.IsCancellationRequested == false)
         {
-            var page = await _mediator.Send(new GetNewTokensRequest { Page = 1 }, cancellationToken);
+            var page = await _mediator.Send(new GetNewTokensRequest(Page: 1), cancellationToken);
             yield return page;
             await Task.Delay(2000, cancellationToken);
         }

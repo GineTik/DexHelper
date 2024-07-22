@@ -10,4 +10,5 @@ public interface ITokenGateway
     Task<IEnumerable<CryptoToken>> GetNewTokens(int offset, int size);
     Task<IEnumerable<CryptoToken>> GetTokensOlderThan(DateTime dateTimeUtc);
     Task<int> GetTotalSize();
+    Task<CryptoToken?> GetTokenInformation(string address);
 }

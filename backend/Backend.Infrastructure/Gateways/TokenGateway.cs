@@ -19,6 +19,7 @@ public class TokenGateway : ITokenGateway
         _dataContext.Tokens.Add(token);
         await _dataContext.SaveChangesAsync();
     }
+    
     public async Task<IEnumerable<CryptoToken>> GetNewTokens(int offset, int size)
     {
         return await _dataContext.Tokens
@@ -27,6 +28,7 @@ public class TokenGateway : ITokenGateway
             .Take(size)
             .ToListAsync();
     }
+    
     public async Task<IEnumerable<CryptoToken>> GetTokensOlderThan(DateTime dateTimeUtc)
     {
         return await _dataContext.Tokens
@@ -34,8 +36,14 @@ public class TokenGateway : ITokenGateway
             .OrderByDescending(o => o.CreatedAtUtc)
             .ToListAsync();
     }
+    
     public async Task<int> GetTotalSize()
     {
         return await _dataContext.Tokens.CountAsync();
+    }
+    
+    public async Task<CryptoToken?> GetTokenInformation(string address)
+    {
+        return await _dataContext.Tokens.FirstOrDefaultAsync(o => o.TokenAddress == address);
     }
 }

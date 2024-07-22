@@ -1,4 +1,4 @@
-﻿namespace Backend.Core.Futures.TokenFiltration.Types;
+﻿namespace Backend.Core.Futures.Token.Types;
 
 public class TokenPaginationPage<T>
 {

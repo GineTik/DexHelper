@@ -1,22 +1,21 @@
-﻿using Backend.Core.Futures.TokenFiltration.Types;
+﻿using Backend.Core.Futures.Token.Types;
 using Backend.Core.Gateways;
 using Backend.Domain.Options;
 using MediatR;
 using Microsoft.Extensions.Options;
 
-namespace Backend.Core.Futures.TokenFiltration;
+namespace Backend.Core.Futures.Token;
 
 public class GetNewTokensResponse : TokenPaginationPage<TokenResponse>
 {
     
 }
 
-public class GetNewTokensRequest : IRequest<GetNewTokensResponse>
+public record GetNewTokensRequest(int Page) : IRequest<GetNewTokensResponse>
 {
-    public int Page { get; set; }
 }
 
-public class GetNewTokensHandler : IRequestHandler<GetNewTokensRequest, GetNewTokensResponse>
+internal class GetNewTokensHandler : IRequestHandler<GetNewTokensRequest, GetNewTokensResponse>
 {
     private readonly ITokenGateway _tokenGateway;
     private readonly PageOptions _pageOptions;

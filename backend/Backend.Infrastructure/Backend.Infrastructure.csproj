@@ -21,4 +21,8 @@
       <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Implementation\Token\TokensApi\Types\BitQuery\" />
+    </ItemGroup>
+
 </Project>

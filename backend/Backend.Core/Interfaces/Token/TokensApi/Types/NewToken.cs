@@ -15,4 +15,5 @@ public class NewToken
     public string Website { get; set; } = default!;
     public string Twitter { get; set; } = default!;
     public string Telegram { get; set; } = default!;
+    public string Wallet { get; set; } = default!;
 }

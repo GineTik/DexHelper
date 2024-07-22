@@ -1,4 +1,4 @@
-﻿namespace Backend.Infrastructure.Implementation.TokensApi.Types.PumpPortal;
+﻿namespace Backend.Infrastructure.Implementation.Token.TokensApi.Types.PumpPortal;
 
 public class NewTokenResponse
 {
@@ -11,4 +11,7 @@ public class NewTokenResponse
     public decimal VTokensInBondingCurve { get; set; } = default!;
     public decimal VSolInBondingCurve { get; set; } = default!;
     public decimal MarketCapSol { get; set; } = default!;
+    public string Uri { get; set; } = default!;
+    public string Name { get; set; } = default!;
+    public string Symbol { get; set; } = default!;
 }

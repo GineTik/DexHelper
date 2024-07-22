@@ -1,8 +1,8 @@
 .header {
-    @apply p-[20px] flex;
+    @apply p-[20px] flex items-center;
 
     .header__information {
-        @apply flex space-x-[15px] cursor-pointer;
+        @apply flex space-x-[15px] cursor-pointer items-center;
 
         &:hover {
             .header__address {
@@ -23,7 +23,15 @@
         }
 
         .header__address {
-            @apply text-[12px] text-white/50 transition flex space-x-1 items-center;
+            @apply text-[12px] text-white/50 transition flex space-x-1 items-center  max-w-[170px];
+
+            .address__icon {
+                @apply min-w-[14px];
+            }
+
+            .address__text {
+                @apply truncate;
+            }
         }
     }
 

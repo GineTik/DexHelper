@@ -1,4 +1,4 @@
-﻿namespace Backend.Infrastructure.Implementation.TokensApi.Types;
+﻿namespace Backend.Infrastructure.Implementation.Token.TokensApi.Types;
 
 public class BitqueryResponse
 {

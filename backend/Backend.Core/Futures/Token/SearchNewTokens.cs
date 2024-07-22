@@ -1,12 +1,13 @@
 ﻿using System.Text.Json;
-using Backend.Core.Futures.TokenFiltration.Types;
+using Backend.Core.Futures.Token.Types;
 using Backend.Core.Gateways;
 using Backend.Core.Interfaces.Token.TokensApi;
 using Backend.Domain.Entities;
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace Backend.Core.Futures.TokenFiltration;
+namespace Backend.Core.Futures.Token;
 
 
 public record SearchNewTokensRequest() : IRequest;
@@ -17,15 +18,15 @@ public class SearchNewTokensHandler : IRequestHandler<SearchNewTokensRequest>
 {
     private readonly ILogger<SearchNewTokensHandler> _logger;
     private readonly ITokensApiClient _tokensApiClient;
-    private readonly ITokenGateway _tokenGateway;
     private readonly IMediator _mediator;
+    private readonly IServiceProvider _serviceProvider;
 
-    public SearchNewTokensHandler(ILogger<SearchNewTokensHandler> logger, ITokensApiClient tokensApiClient, ITokenGateway tokenGateway, IMediator mediator)
+    public SearchNewTokensHandler(ILogger<SearchNewTokensHandler> logger, ITokensApiClient tokensApiClient, IMediator mediator, IServiceProvider serviceProvider)
     {
         _logger = logger;
         _tokensApiClient = tokensApiClient;
-        _tokenGateway = tokenGateway;
         _mediator = mediator;
+        _serviceProvider = serviceProvider;
     }
 
     public Task Handle(SearchNewTokensRequest request, CancellationToken cancellationToken)
@@ -43,7 +44,10 @@ public class SearchNewTokensHandler : IRequestHandler<SearchNewTokensRequest>
                 // if (isValid == false)
                 //     return;
 
-                await _tokenGateway.AddAsync(new CryptoToken
+                using var scope = _serviceProvider.CreateScope();
+                var tokenGateway = scope.ServiceProvider.GetRequiredService<ITokenGateway>();
+                
+                await tokenGateway.AddAsync(new CryptoToken
                 {
                     Name = response.Name,
                     Symbol = response.Symbol,
@@ -67,6 +71,12 @@ public class SearchNewTokensHandler : IRequestHandler<SearchNewTokensRequest>
                 //     TokenAddress = response.TokenAddress,
                 //     CreatedAtUtc = response.CreatedAtUtc
                 // }, cancellationToken);
+            });
+            
+            _tokensApiClient.SubscribeOnNewTransaction(transactions =>
+            {
+                Console.WriteLine(transactions);
+                return Task.CompletedTask;
             });
         }
         catch (Exception ex)

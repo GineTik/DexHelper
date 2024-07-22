@@ -1,5 +1,5 @@
-﻿using Backend.Core.Futures.TokenFiltration;
-using Backend.Core.Futures.TokenFiltration.Types;
+﻿using Backend.Core.Futures.Token;
+using Backend.Core.Futures.Token.Types;
 using Backend.SignalRHubs;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
