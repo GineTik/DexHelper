@@ -1,6 +1,9 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.JavaScript;
+using Backend.Constants;
 using Backend.Core.Futures.Token;
+using Backend.Core.Futures.Token.Trackers.TrackNewToken;
+using Backend.Core.Futures.Token.Trackers.TrackNewTransactions;
 using Backend.Core.Futures.Token.Types;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
@@ -9,7 +12,8 @@ namespace Backend.SignalRHubs;
 
 public interface ITypedTokensHub
 {
-    Task ReceiveNewToken(TokenResponse token);
+    Task ReceiveNewToken(NewTokenNotification token);
+    Task ReceiveNewTransaction(NewTransactionNotification transaction);
 }
 
 public class TokensHub : Hub<ITypedTokensHub>
@@ -29,6 +33,11 @@ public class TokensHub : Hub<ITypedTokensHub>
             yield return page;
             await Task.Delay(2000, cancellationToken);
         }
+    }
+    
+    public async Task TrackTokenTransactions(string tokenAddress)
+    {
+        await Groups.AddToGroupAsync(Context.ConnectionId, SignalRGroupsConstants.TrackTokenTransaction(tokenAddress));
     }
 
     public override Task OnConnectedAsync()

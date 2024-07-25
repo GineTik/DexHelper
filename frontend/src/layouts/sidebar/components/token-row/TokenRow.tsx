@@ -6,11 +6,12 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { BsThreeDotsVertical } from "react-icons/bs"
 import styles from "./TokenRow.module.scss"
+import MarketCapitalization from "./components/market-capitalization/MarketCapitalization"
 import TokenLifeTime from "./components/token-life-time/TokenLifeTime"
 
 type TokenRowProps = Token
 
-const TokenRow = ({image, name, symbol, tokenAddress, createdAtUtc}: TokenRowProps) => {
+const TokenRow = ({image, name, symbol, address: tokenAddress, createdAtUtc, priceUsd}: TokenRowProps) => {
 	var router = useRouter()
 
 	return (
@@ -28,7 +29,9 @@ const TokenRow = ({image, name, symbol, tokenAddress, createdAtUtc}: TokenRowPro
 					<div className={styles.token__symbol}>{name}</div>
 				</td>
 				<td>
-					<div className={styles.token__mcap}>$14.7k</div>
+					<div className={styles.token__mcap}>
+						<MarketCapitalization capitalization={priceUsd*1_000_000_000} />
+					</div>
 					<div className={styles['token__mcap-percent']}>+350%</div>
 				</td>
 				<td className={styles.token__created}>

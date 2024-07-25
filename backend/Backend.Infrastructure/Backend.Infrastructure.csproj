@@ -22,7 +22,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Implementation\Token\TokensApi\Types\BitQuery\" />
+      <Folder Include="Implementation\Token\Api\Types\BitQuery\" />
     </ItemGroup>
 
 </Project>

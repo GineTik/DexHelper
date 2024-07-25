@@ -1,4 +1,4 @@
-﻿namespace Backend.Infrastructure.Implementation.Token.TokensApi.Types.PumpPortal;
+﻿namespace Backend.Infrastructure.Implementation.Token.Api.Types.PumpPortal;
 
 public class NewTokenResponse
 {

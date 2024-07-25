@@ -45,7 +45,7 @@ internal class GetTokenInformationHandler : IRequestHandler<GetTokenInformationR
             Name = token.Name,
             Symbol = token.Symbol,
             Image = token.ImageUrl,
-            TokenAddress = token.TokenAddress,
+            TokenAddress = token.Address,
             Description = token.Description,
             Links = links.Where(o => o.Url != null)
         };

@@ -1,4 +1,4 @@
-﻿namespace Backend.Infrastructure.Implementation.Token.TokensApi.Types;
+﻿namespace Backend.Infrastructure.Implementation.Token.Api.Types;
 
 public class IpfsResponse
 {

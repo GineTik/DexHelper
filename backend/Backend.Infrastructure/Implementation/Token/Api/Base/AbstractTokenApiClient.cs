@@ -1,27 +1,25 @@
 ﻿using System.Net.WebSockets;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
-using Backend.Core.Interfaces.Token.TokensApi.Types;
 using Backend.Domain.Options;
-using Backend.Infrastructure.Implementation.Token.TokensApi.Types.PumpPortal;
-using Backend.Infrastructure.Implementation.Token.TokensApi.Types;
-using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
+using Backend.Infrastructure.Implementation.Token.Api.Types;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using RestSharp;
 using Websocket.Client;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
-namespace Backend.Infrastructure.Implementation.Token.TokensApi;
+namespace Backend.Infrastructure.Implementation.Token.Api.Base;
 
 public abstract class AbstractTokenApiClient : IDisposable
 {
     private readonly IDictionary<string, WebsocketClient> _websocketClients;
     private readonly BitqueryOptions _bitqueryOptions;
-    private readonly ILogger<TokensApiClient> _logger;
+    private readonly ILogger<AbstractTokenApiClient> _logger;
     private readonly PumpPortalFunOptions _pumpPortalFunOptions;
 
-    protected AbstractTokenApiClient(IOptions<BitqueryOptions> bitqueryOptions, ILogger<TokensApiClient> logger, IOptions<PumpPortalFunOptions> pumpPortalFunOptions)
+    protected AbstractTokenApiClient(IOptions<BitqueryOptions> bitqueryOptions, ILogger<AbstractTokenApiClient> logger, IOptions<PumpPortalFunOptions> pumpPortalFunOptions)
     {
         _logger = logger;
         _pumpPortalFunOptions = pumpPortalFunOptions.Value;
@@ -124,7 +122,34 @@ public abstract class AbstractTokenApiClient : IDisposable
         websocketClient.Start();
         _websocketClients[name] = websocketClient;
     }
+
+    protected async Task<dynamic> SendQueryToBitquery(string query)
+    {
+        var options = new RestClientOptions(_bitqueryOptions.QueryUrl);
+        var client = new RestClient(options);
+        var request = CreateRequest(query);
+
+        var response = await client.ExecuteAsync(request);
+        var content = JsonConvert.DeserializeObject<dynamic>(response.Content
+            ?? throw new InvalidOperationException("response is null")) 
+            ?? throw new InvalidOperationException("DeserializeObject(data) return null");
+        return content.data;
+    }
     
+    private RestRequest CreateRequest(string query)
+    {
+        var request = new RestRequest("", Method.Post);
+        request.AddHeader("Content-Type", "application/json");
+        request.AddHeader("X-API-KEY", _bitqueryOptions.ApiKey);
+        request.AddHeader("Authorization", $"Bearer {_bitqueryOptions.AccessToken}");
+        var body = JsonConvert.SerializeObject(new
+        {
+            query = query
+        });
+        request.AddStringBody(body, DataFormat.Json);
+        return request;
+    }
+
     private WebsocketClient CreateWebsocketClient()
     {
         var factory = new Func<ClientWebSocket>(() =>
@@ -136,7 +161,7 @@ public abstract class AbstractTokenApiClient : IDisposable
             client.Options.AddSubProtocol("graphql-ws");
             return client;
         });
-        var url = new Uri(_bitqueryOptions.Url + $"?token={_bitqueryOptions.AccessToken}");
+        var url = new Uri(_bitqueryOptions.SubscribeUrl + $"?token={_bitqueryOptions.AccessToken}");
         var client = new WebsocketClient(url, factory);
         return client;
     }

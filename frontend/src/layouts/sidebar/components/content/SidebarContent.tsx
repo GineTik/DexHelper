@@ -12,6 +12,7 @@ const SidebarContent = () => {
 
 	const [tokens, setTokens] = useState<Token[]>([])
 	const [connection, setConnection] = useState<HubConnection | null>(null)
+	const [transaction, setTransaction] = useState<any>()
 
 	useEffect(() => {
 	  const connection = new HubConnectionBuilder()
@@ -20,12 +21,18 @@ const SidebarContent = () => {
 		.configureLogging(LogLevel.Information)
 		.build()
   
-	  connection.on("ReceiveNewToken", (item) => {
-		console.log("Received new token:", item)
+	  connection.on("ReceiveNewToken", (item: Token) => {
+		connection.invoke("TrackTokenTransactions", item.address)
 		setTokens(prevTokens => [item, ...prevTokens])
 	  });
+
+	  connection.on("ReceiveNewTransaction", (item) => {
+		setTransaction(item)
+	  })
+
+	  connection.start()
   
-	  setConnection(connection);
+	//   setConnection(connection);
   
 	  return () => {
 		if (connection.state !== 'Disconnected') {
@@ -35,31 +42,54 @@ const SidebarContent = () => {
 		}
 	  };
 	}, []);
-  
+
 	useEffect(() => {
-	  if (connection) {
-		connection.start()
-		  .then(() => {
-			// connection.send("TestReceiveToken")
-			connection.stream("ReceiveNewTokens")
-				.subscribe({
-					next: (page) => {
-						setTokens(page.items)
-					},
-					error: (error) => {
-						console.log("Error: ", error)
-					},
-					complete: () => {
-						console.log("Completed")
-					}
-				})
-			console.log("Connected to SignalR Hub")
-		  })
-		  .catch((err) => {
-			console.error("Error while connecting to SignalR Hub:", err)
-		  })
-	  }
-	}, [connection])
+		if (!transaction)
+			return
+
+		setTokens(prevTokens => prevTokens.map(o => {
+			if (o.address == transaction.cryptoTokenAddress)
+				o.priceUsd = transaction.type == 1 
+					? transaction.boughtTokenPriceUsd
+					: transaction.soldTokenPriceUsd
+			return o
+		}))
+	}, [transaction])
+  
+	// useEffect(() => {
+	//   if (connection) {
+	// 	connection.start()
+	// 	  .then(() => {
+	// 		// connection.send("TestReceiveToken")
+	// 		connection.stream("ReceiveNewTokens")
+	// 			.subscribe({
+	// 				next: (page) => {
+	// 					const previousTokens = tokens
+	// 					const intersectionIndex = page.items.indexOf(previousTokens[0])
+	// 					const newTokens = previousTokens.slice(0, intersectionIndex)
+				
+	// 					console.log(previousTokens, )
+	// 					for (var i = 0; i < newTokens.length; i++) {
+	// 						const token = newTokens[i]
+	// 						connection.send("TrackTokenTransactions", token.address)
+	// 					}
+
+	// 					setTokens(page.items)
+	// 				},
+	// 				error: (error) => {
+	// 					console.log("Error: ", error)
+	// 				},
+	// 				complete: () => {
+	// 					console.log("Completed")
+	// 				}
+	// 			})
+	// 		console.log("Connected to SignalR Hub")
+	// 	  })
+	// 	  .catch((err) => {
+	// 		console.error("Error while connecting to SignalR Hub:", err)
+	// 	  })
+	//   }
+	// }, [connection])
 
   return (
     <ScrollArea className={styles.sidebar__content} scrollClassNames={styles["sidebar__content-scroll"]}>

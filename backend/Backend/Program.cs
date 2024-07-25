@@ -1,9 +1,7 @@
 using Backend;
 using Backend.BackgroundServices;
-using Backend.Core.Futures.Token;
 using Backend.Infrastructure;
 using Backend.SignalRHubs;
-using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddTransient<ConfigurationManager>(_ => builder.Configuration);
@@ -11,7 +9,7 @@ builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.Services.AddInfrastructure();
 builder.Services.AddPresentation();
-builder.Services.AddHostedService<SearchNewTokensHostedService>();
+builder.Services.AddHostedService<TrackCryptoHostedService>();
 
 var app = builder.Build();
 app.UseCors(policy => policy.WithOrigins("http://localhost:3000")

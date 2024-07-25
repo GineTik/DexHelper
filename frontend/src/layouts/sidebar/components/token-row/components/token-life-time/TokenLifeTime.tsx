@@ -8,7 +8,7 @@ const TokenLifeTime = ({dateUtc}: TokenLifeTimeProps) => {
     const [lifeTime, setLifeTime] = useState("0s")
 
     useEffect(() => {
-        const date = new Date(dateUtc + 'Z');
+        const date = new Date(dateUtc);
         var now = new Date();
         var timeDiff = now.valueOf() - date.valueOf();
         var seconds = Math.round(timeDiff / 1000);

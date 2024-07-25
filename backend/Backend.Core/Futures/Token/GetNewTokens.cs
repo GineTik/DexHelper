@@ -53,7 +53,7 @@ internal class GetNewTokensHandler : IRequestHandler<GetNewTokensRequest, GetNew
                 Name = o.Name,
                 Symbol = o.Symbol,
                 Image = o.ImageUrl,
-                TokenAddress = o.TokenAddress,
+                TokenAddress = o.Address,
                 CreatedAtUtc = o.CreatedAtUtc
             })
         };
