@@ -1,7 +1,7 @@
 "use client"
-import axios from "axios"
+import { TokenService } from "@/api/token.service"
+import { useQuery } from "@/hooks/useQuery"
 import { useParams } from "next/navigation"
-import { useEffect, useState } from "react"
 import TokenBlocks from "./components/blocks/TokenBlocks"
 import TokenChart from "./components/chart/TokenChart"
 import TokenHeader from "./components/header/TokenHeader"
@@ -9,12 +9,13 @@ import styles from "./TokenPage.module.scss"
 
 const TokenPage = () => {
   const {address} = useParams()
-  const [data, setData] = useState<any>({})
-  
-  useEffect(() => {
-    axios.get(`http://localhost:5046/tokens/get-info?address=${address}`)
-      .then(o => setData(o.data))
-  }, [])
+
+  const {data, isLoading} = useQuery({
+    query: () => TokenService.GetTokenInformation(address as string)
+  })
+
+  if (isLoading)
+    return "is loading ..."
 
   return (
     <div className={styles.page}>

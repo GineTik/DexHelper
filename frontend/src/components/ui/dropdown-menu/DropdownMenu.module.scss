@@ -1,0 +1,11 @@
+.dropdownmenu__item {
+    @apply relative flex items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors duration-75 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 cursor-pointer text-white; 
+
+    &:hover {
+        @apply bg-white/10;
+    }
+
+    svg {
+        @apply mr-2;
+    }
+}

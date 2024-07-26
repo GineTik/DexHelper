@@ -35,8 +35,25 @@
         }
     }
 
-    .header__advertising {
-        @apply ml-[10px];
+    .header__acts {
+        @apply flex ml-[10px];
+
+        .header__advertising {
+        }
+
+        svg {
+            @apply text-white/50;
+        }
+
+        .dropdown {
+            .dropdown__report {
+                @apply text-red-500;
+                
+                svg {
+                    @apply text-red-500;
+                }
+            }
+        }
     }
 
     .header__links {

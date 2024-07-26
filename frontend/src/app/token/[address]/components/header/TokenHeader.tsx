@@ -1,9 +1,13 @@
 "use client"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar/Avatar"
 import { Button } from "@/components/ui/button/Button"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu/DropdownMenu"
 import Link from "next/link"
-import { BiSolidCopy } from "react-icons/bi"
+import { BiHeart, BiSolidCopy } from "react-icons/bi"
+import { BsPerson, BsThreeDotsVertical } from "react-icons/bs"
+import { CgEye } from "react-icons/cg"
 import { IoIosTrendingUp } from "react-icons/io"
+import { MdOutlineBugReport } from "react-icons/md"
 import styles from "./TokenHeader.module.scss"
 
 type TokenHeaderProps = any
@@ -27,13 +31,50 @@ const TokenHeader = (data: TokenHeaderProps) => {
                     </div>
                 </div>
             </div>
-            <Button 
-                className={styles.header__advertising} 
-                tooltip="up the token to the first line"
-                tooltipSide="bottom"
-            >
-                <IoIosTrendingUp className="text-white/50" />
-            </Button>
+            <div className={styles.header__acts}>
+                <Button 
+                    className={styles.header__advertising} 
+                    tooltip="profile of creator"
+                    tooltipSide="bottom"
+                >
+                    <BsPerson />
+                </Button>
+                <Button 
+                    className={styles.header__advertising} 
+                    tooltip="up the token to the first line"
+                    tooltipSide="bottom"
+                >
+                    <IoIosTrendingUp />
+                </Button>
+                <DropdownMenu>
+					<DropdownMenuTrigger asChild>
+                        <Button
+                            className={styles.header__advertising} 
+                            tooltip="more"
+                            tooltipSide="bottom"
+                        >
+                            <BsThreeDotsVertical />
+                        </Button>
+					</DropdownMenuTrigger>
+					<DropdownMenuContent side="right" align="start" sticky="always" className={styles.dropdown}>
+						<DropdownMenuLabel>More actions</DropdownMenuLabel>
+						<DropdownMenuSeparator />
+						<DropdownMenuItem>
+                            <BiHeart />
+                            Favorite
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
+                            <CgEye />
+                            Hide
+                        </DropdownMenuItem>
+						<DropdownMenuSeparator />
+						<DropdownMenuItem className={styles.dropdown__report}>
+							<MdOutlineBugReport />
+							Report
+						</DropdownMenuItem>
+					</DropdownMenuContent>
+				</DropdownMenu>
+            </div>
             <div className={styles.header__links}>
                 <Link href={""} className={styles.header__link}>
                     PhotonSol

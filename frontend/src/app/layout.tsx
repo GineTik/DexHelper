@@ -22,11 +22,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Providers>
-        <body className={cn(styles.body, inter.className)}>
-          <Sidebar />
-          <MainWrapper>
-            {children}
-          </MainWrapper>
+        <body className={cn(styles.body, inter.className, "dark")} >
+          <div className={styles.wrapper}>
+            <Sidebar />
+            <MainWrapper>
+              {children}
+            </MainWrapper>
+          </div>
         </body>
       </Providers>
     </html>

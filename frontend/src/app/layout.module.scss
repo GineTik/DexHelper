@@ -1,3 +1,7 @@
 .body {
-    @apply bg-gray-950 px-[20px] text-white flex;
+    @apply bg-gray-950 text-white;
+}
+
+.wrapper {
+    @apply px-[20px] flex;
 }

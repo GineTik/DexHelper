@@ -1,47 +1,57 @@
+import { TokenService } from "@/api/token.service"
 import { Button } from "@/components/ui/button/Button"
 import { ScrollArea } from "@/components/ui/scroll-area/ScrollArea"
+import { useQuery } from "@/hooks/useQuery"
 import { cn } from "@/lib/utils"
 import { Token } from "@/types/Token"
-import { HubConnection, HubConnectionBuilder, LogLevel } from "@microsoft/signalr"
+import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr"
 import { useEffect, useState } from "react"
 import { CgMoreAlt } from "react-icons/cg"
+import { RiLoader5Fill } from "react-icons/ri"
 import TokenRow from "../token-row/TokenRow"
 import styles from "./SidebarContent.module.scss"
 
 const SidebarContent = () => {
-
+	const {data: page, isLoading: pageIsLoading} = useQuery<{ items: Token[] }>({
+		query: () => TokenService.GetTokensPage(1),
+	})
 	const [tokens, setTokens] = useState<Token[]>([])
-	const [connection, setConnection] = useState<HubConnection | null>(null)
 	const [transaction, setTransaction] = useState<any>()
 
 	useEffect(() => {
-	  const connection = new HubConnectionBuilder()
-		.withUrl("http://localhost:5046/ws/new-tokens")
-		.withAutomaticReconnect()
-		.configureLogging(LogLevel.Information)
-		.build()
-  
-	  connection.on("ReceiveNewToken", (item: Token) => {
-		connection.invoke("TrackTokenTransactions", item.address)
-		setTokens(prevTokens => [item, ...prevTokens])
-	  });
+		if (page)
+			setTokens(page.items)
+	}, [page])
 
-	  connection.on("ReceiveNewTransaction", (item) => {
-		setTransaction(item)
-	  })
+	useEffect(() => {
+		if (!page)
+			return
 
-	  connection.start()
-  
-	//   setConnection(connection);
-  
-	  return () => {
-		if (connection.state !== 'Disconnected') {
-		  connection.stop()
-			.then(() => console.log("Disconnected from SignalR Hub"))
-			.catch((err) => console.error("Error while disconnecting from SignalR Hub:", err))
-		}
-	  };
-	}, []);
+		const connection = new HubConnectionBuilder()
+			.withUrl("http://localhost:5046/ws/new-tokens")
+			.withAutomaticReconnect()
+			.configureLogging(LogLevel.Information)
+			.build()
+	
+		connection.on("ReceiveNewToken", (item: Token) => {
+			connection.invoke("TrackTokenTransactions", item.address)
+			setTokens(prevTokens => [item, ...prevTokens])
+		});
+
+		connection.on("ReceiveNewTransaction", (item) => {
+			setTransaction(item)
+		})
+
+		connection.start()
+	
+		return () => {
+			if (connection.state !== 'Disconnected') {
+			connection.stop()
+				.then(() => console.log("Disconnected from SignalR Hub"))
+				.catch((err) => console.error("Error while disconnecting from SignalR Hub:", err))
+			}
+		};
+	}, [page]);
 
 	useEffect(() => {
 		if (!transaction)
@@ -54,47 +64,12 @@ const SidebarContent = () => {
 					: transaction.soldTokenPriceUsd
 			return o
 		}))
-	}, [transaction])
-  
-	// useEffect(() => {
-	//   if (connection) {
-	// 	connection.start()
-	// 	  .then(() => {
-	// 		// connection.send("TestReceiveToken")
-	// 		connection.stream("ReceiveNewTokens")
-	// 			.subscribe({
-	// 				next: (page) => {
-	// 					const previousTokens = tokens
-	// 					const intersectionIndex = page.items.indexOf(previousTokens[0])
-	// 					const newTokens = previousTokens.slice(0, intersectionIndex)
-				
-	// 					console.log(previousTokens, )
-	// 					for (var i = 0; i < newTokens.length; i++) {
-	// 						const token = newTokens[i]
-	// 						connection.send("TrackTokenTransactions", token.address)
-	// 					}
-
-	// 					setTokens(page.items)
-	// 				},
-	// 				error: (error) => {
-	// 					console.log("Error: ", error)
-	// 				},
-	// 				complete: () => {
-	// 					console.log("Completed")
-	// 				}
-	// 			})
-	// 		console.log("Connected to SignalR Hub")
-	// 	  })
-	// 	  .catch((err) => {
-	// 		console.error("Error while connecting to SignalR Hub:", err)
-	// 	  })
-	//   }
-	// }, [connection])
+	}, [page, transaction])
 
   return (
     <ScrollArea className={styles.sidebar__content} scrollClassNames={styles["sidebar__content-scroll"]}>
         <table className={cn(styles.sidebar__table, styles.table)}>
-            <tbody>
+			<thead>
 				<tr className={styles.table__header}>
 					<th></th>
 					<th>Name</th>
@@ -102,15 +77,20 @@ const SidebarContent = () => {
 					<th>Created</th>
 					<th></th>
 				</tr>
-
-				{tokens?.map((o, i) => <TokenRow key={i} {...o} />)}
-
+			</thead>
+            <tbody className={styles.table__content} data-loaded={!pageIsLoading}>
+				{!pageIsLoading && tokens?.map((o, i) => <TokenRow key={o.address} {...o} />)}
             </tbody>
         </table>
-        <Button variant="ghost" className="mx-auto mt-3 mb-[300px]">
+
+		<div className={styles.loader} data-loaded={!pageIsLoading}>
+			<RiLoader5Fill className={styles.loader__icon} />
+		</div>
+
+        {!pageIsLoading && <Button variant="ghost" className="mx-auto mt-3 mb-[300px]">
             <CgMoreAlt className="w-[16px] h-[16px]" />
             <span>more</span>
-        </Button>
+        </Button>}
     </ScrollArea>
   )
 }

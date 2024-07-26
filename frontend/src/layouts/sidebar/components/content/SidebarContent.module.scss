@@ -7,7 +7,7 @@
 }
 
 .sidebar__table {
-    @apply w-full mt-[52px];
+    @apply w-full mt-[52px] relative;
 }
 
 .table {
@@ -49,5 +49,33 @@
         th {
             @apply py-[9px] font-normal;
         }
+    }
+
+    .table__content {
+        @apply w-full transition-all delay-300;
+
+        &[data-loaded="false"] {
+            @apply scale-0 opacity-0;
+        }
+
+        &[data-loaded="true"] {
+            @apply scale-100 opacity-100;
+        }
+    }
+}
+
+.loader {
+    @apply flex items-center justify-center absolute top-[100px] w-full transition-all duration-200 pointer-events-none;
+
+    .loader__icon {
+        @apply stroke-white size-[30px] animate-spin;
+    }
+
+    &[data-loaded="false"] {
+        @apply opacity-100 h-[100px];
+    }
+
+    &[data-loaded="true"] {
+        @apply opacity-0  h-[40px];
     }
 }
